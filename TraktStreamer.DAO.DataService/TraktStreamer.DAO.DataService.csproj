@@ -51,6 +51,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataService.cs" />
+    <Compile Include="Migrations\201706151622186_InitialCreate.cs" />
+    <Compile Include="Migrations\201706151622186_InitialCreate.Designer.cs">
+      <DependentUpon>201706151622186_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706151627451_InitMigration.cs" />
+    <Compile Include="Migrations\201706151627451_InitMigration.Designer.cs">
+      <DependentUpon>201706151627451_InitMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706151630086_AuthInfoCreationDate.cs" />
+    <Compile Include="Migrations\201706151630086_AuthInfoCreationDate.Designer.cs">
+      <DependentUpon>201706151630086_AuthInfoCreationDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +75,17 @@
       <Project>{e73a099f-bc81-488f-aaaf-3a8ca3ab61c8}</Project>
       <Name>TraktStreamer.DAO.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706151622186_InitialCreate.resx">
+      <DependentUpon>201706151622186_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706151627451_InitMigration.resx">
+      <DependentUpon>201706151627451_InitMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706151630086_AuthInfoCreationDate.resx">
+      <DependentUpon>201706151630086_AuthInfoCreationDate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

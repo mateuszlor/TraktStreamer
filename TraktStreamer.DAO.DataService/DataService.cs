@@ -10,6 +10,11 @@ namespace TraktStreamer.DAO.DataService
 {
     public class DataService : DbContext
     {
+        public DataService() :base("TraktStreamer")
+        {
+            
+        }
+
         public DbSet<Series> Series { get; }
         public DbSet<AuthorizationInfo> AuthorizationInfo { get; }
     }
