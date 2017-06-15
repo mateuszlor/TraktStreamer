@@ -1,0 +1,5 @@
+packages/
+TraktStreamer/bin/
+obj
+.vs/
+bin/
