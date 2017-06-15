@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
+using TraktStreamer.DAO.Model;
+using TraktStreamer.Repository;
 
 namespace TraktStreamer.ConsoleApp
 {
@@ -16,15 +18,35 @@ namespace TraktStreamer.ConsoleApp
         static void Main(string[] args)
         {
             var client = new TraktClient(CLIENT_ID, CLIENT_SECRET);
-            var authorizationUrl = client.OAuth.CreateAuthorizationUrl();
-            System.Diagnostics.Process.Start(authorizationUrl);
 
-            var pin = Console.ReadLine();
+            var repo = new AuthorizationInfoRepository();
+            var auth = repo.GetAll().LastOrDefault();
 
-            var authorizationTask = client.OAuth.GetAuthorizationAsync(pin);
-            authorizationTask.Wait();
+            if (auth is null)
+            {
+                var authorizationUrl = client.OAuth.CreateAuthorizationUrl();
+                System.Diagnostics.Process.Start(authorizationUrl);
 
-            var autohrization = authorizationTask.Result;
+                var pin = Console.ReadLine();
+
+                var authorizationTask = client.OAuth.GetAuthorizationAsync(pin);
+                authorizationTask.Wait();
+
+                var authorization = authorizationTask.Result;
+
+                auth = new AuthorizationInfo
+                {
+                    AccessToken = authorization.AccessToken,
+                    RefreshToken = authorization.RefreshToken
+                };
+
+                repo.Save(auth);
+            }
+            else
+            {
+                var authorization = TraktAuthorization.CreateWith(auth.AccessToken, auth.RefreshToken);
+                client.Authorization = authorization;
+            }
 
             Console.WriteLine("{0} | {1} | {2}", client.Authorization.TokenType, client.Authorization.AccessToken, client.Authorization.RefreshToken);
 
