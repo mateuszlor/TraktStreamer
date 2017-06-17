@@ -17,6 +17,13 @@ namespace TraktStreamer.ConsoleApp
 
         static void Main(string[] args)
         {
+            MainAsync();
+            
+            Console.ReadKey();
+        }
+
+        private static async Task MainAsync()
+        {
             var client = new TraktClient(CLIENT_ID, CLIENT_SECRET);
 
             var repo = RepositoryRegistry.Instance.AuthorizationInfoRepository;
@@ -29,11 +36,8 @@ namespace TraktStreamer.ConsoleApp
 
                 var pin = Console.ReadLine();
 
-                var authorizationTask = client.OAuth.GetAuthorizationAsync(pin);
-                authorizationTask.Wait();
-
-                var authorization = authorizationTask.Result;
-
+                var authorization = await client.OAuth.GetAuthorizationAsync(pin);
+                
                 auth = new AuthorizationInfo
                 {
                     AccessToken = authorization.AccessToken,
@@ -50,10 +54,8 @@ namespace TraktStreamer.ConsoleApp
 
             Console.WriteLine("{0} | {1} | {2}", client.Authorization.TokenType, client.Authorization.AccessToken, client.Authorization.RefreshToken);
 
-            var watchlistTask = client.Sync.GetWatchedShowsAsync();
-            watchlistTask.Wait();
+            var watchlist = await client.Sync.GetWatchedShowsAsync();
 
-            var watchlist = watchlistTask.Result;
             foreach (var i in watchlist)
             {
                 var progressTask = client.Shows.GetShowWatchedProgressAsync(i.Show.Ids.Slug);
@@ -65,9 +67,6 @@ namespace TraktStreamer.ConsoleApp
                     Console.WriteLine("{0} - {1} | {2}", i.Show.Title, progress.NextEpisode.Title, progress.NextEpisode.FirstAired);
                 }
             }
-
-            Console.WriteLine(new string('=', 50));
-            Console.ReadKey();
         }
     }
 }
