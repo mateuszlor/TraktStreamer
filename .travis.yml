@@ -1,6 +1,4 @@
 language: csharp
 solution: TraktStreamer.sln
-
-notifications:
-  email:
-    - MateuszLorencki+Travis-CI@gmail.com
+script:
+  - msbuild /p:Configuration=Debug TraktStreamer.sln
