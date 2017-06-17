@@ -1,0 +1,6 @@
+language: csharp
+solution: TraktStreamer.sln
+
+notifications:
+  email:
+    - MateuszLorencki+Travis-CI@gmail.com
