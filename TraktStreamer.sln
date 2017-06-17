@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktStreamer.Model", "Trak
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktStreamer.Core", "TraktStreamer.Core\TraktStreamer.Core.csproj", "{6A4F8C8F-FBE8-4D5D-9E34-DFA60DC8F0E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktStreamer.AOP", "TraktStreamer.AOP\TraktStreamer.AOP.csproj", "{FA01EE40-D16C-4355-97FD-C410FFEF4901}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktStreamer.Repository.API", "TraktStreamer.Repository.API\TraktStreamer.Repository.API.csproj", "{E7A6173B-3A84-4D1A-952B-F2F73FE0A23A}"
 EndProject
 Global
