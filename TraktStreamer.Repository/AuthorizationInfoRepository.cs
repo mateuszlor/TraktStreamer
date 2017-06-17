@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TraktStreamer.DAO.Model;
+﻿using TraktStreamer.DAO.Model;
+using TraktStreamer.Repository.API;
 
 namespace TraktStreamer.Repository
 {
-    public class AuthorizationInfoRepository : BaseRepository<AuthorizationInfo>
+    public class AuthorizationInfoRepository : BaseRepository<AuthorizationInfo>, IAuthorizationInfoRepository
     {
     }
 }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CFAFAE61-B2D0-4DF3-BAB4-FB183A2F9983}</ProjectGuid>
+    <ProjectGuid>{6A4F8C8F-FBE8-4D5D-9E34-DFA60DC8F0E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TraktStreamer.Repository</RootNamespace>
-    <AssemblyName>TraktStreamer.Repository</AssemblyName>
+    <RootNamespace>TraktStreamer.Core</RootNamespace>
+    <AssemblyName>TraktStreamer.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,17 +36,10 @@
     <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Spring.Core, Version=2.0.1.45000, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <HintPath>..\packages\Spring.Core.2.0.1\lib\net45\Spring.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,31 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RepositoryRegistry.cs" />
-    <Compile Include="AuthorizationInfoRepository.cs" />
-    <Compile Include="BaseRepository.cs" />
+    <Compile Include="ApplicationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TraktStreamer.Core\TraktStreamer.Core.csproj">
-      <Project>{6A4F8C8F-FBE8-4D5D-9E34-DFA60DC8F0E3}</Project>
-      <Name>TraktStreamer.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TraktStreamer.DAO.Model\TraktStreamer.DAO.Model.csproj">
-      <Project>{e73a099f-bc81-488f-aaaf-3a8ca3ab61c8}</Project>
-      <Name>TraktStreamer.DAO.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TraktStreamer.DAO.DataService\TraktStreamer.DAO.DataService.csproj">
-      <Project>{a051e9ca-2e0e-46d9-a4cd-f2fec893f669}</Project>
+      <Project>{A051E9CA-2E0E-46D9-A4CD-F2FEC893F669}</Project>
       <Name>TraktStreamer.DAO.DataService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TraktStreamer.Repository.API\TraktStreamer.Repository.API.csproj">
-      <Project>{E7A6173B-3A84-4D1A-952B-F2F73FE0A23A}</Project>
-      <Name>TraktStreamer.Repository.API</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

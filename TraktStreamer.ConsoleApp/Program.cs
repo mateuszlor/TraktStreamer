@@ -19,7 +19,7 @@ namespace TraktStreamer.ConsoleApp
         {
             var client = new TraktClient(CLIENT_ID, CLIENT_SECRET);
 
-            var repo = new AuthorizationInfoRepository();
+            var repo = RepositoryRegistry.Instance.AuthorizationInfoRepository;
             var auth = repo.GetAll().LastOrDefault();
 
             if (auth is null)
