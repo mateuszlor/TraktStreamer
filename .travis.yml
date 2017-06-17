@@ -1,5 +1,2 @@
 language: csharp
 solution: TraktStreamer.sln
-dist: trusty
-script:
-  - msbuild /p:Configuration=Debug TraktStreamer.sln
