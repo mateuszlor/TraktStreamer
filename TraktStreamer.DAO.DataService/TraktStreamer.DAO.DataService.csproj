@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201706151630086_AuthInfoCreationDate.Designer.cs">
       <DependentUpon>201706151630086_AuthInfoCreationDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706181539102_SeriesLimits.cs" />
+    <Compile Include="Migrations\201706181539102_SeriesLimits.Designer.cs">
+      <DependentUpon>201706181539102_SeriesLimits.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706151630086_AuthInfoCreationDate.resx">
       <DependentUpon>201706151630086_AuthInfoCreationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706181539102_SeriesLimits.resx">
+      <DependentUpon>201706181539102_SeriesLimits.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
