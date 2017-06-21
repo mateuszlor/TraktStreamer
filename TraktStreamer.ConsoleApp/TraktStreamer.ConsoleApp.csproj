@@ -89,6 +89,10 @@
       <Project>{AF42CBE8-9EE2-4EC7-94C4-D613BC099DB3}</Project>
       <Name>TraktStreamer.Service.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TraktStreamer.Service\TraktStreamer.Service.csproj">
+      <Project>{e118de26-64b7-42b5-92b9-c3dff220c40b}</Project>
+      <Name>TraktStreamer.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
