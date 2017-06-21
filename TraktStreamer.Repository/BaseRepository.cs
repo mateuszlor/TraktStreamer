@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TraktStreamer.Core;
 using TraktStreamer.DAO.DataService;
 using TraktStreamer.DAO.Model;
 using TraktStreamer.Repository.API;
@@ -27,9 +24,9 @@ namespace TraktStreamer.Repository
 
         public long Save(T item)
         {
-            var saved = DataService.Set<T>().Add(item);
+            DataService.Set<T>().AddOrUpdate(item);
             DataService.SaveChanges();
-            return saved.ID;
+            return item.ID;
         }
     }
 }
