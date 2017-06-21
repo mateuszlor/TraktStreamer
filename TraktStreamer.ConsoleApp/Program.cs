@@ -33,7 +33,7 @@ namespace TraktStreamer.ConsoleApp
         private static async Task MainAsync()
         {
             var service = ServiceRegistry.Instance.TraktService;
-            var client = service.GetAuthorizedTraktClientAsync();
+            var client = await service.GetAuthorizedTraktClientAsync(HandleTraktCallback);
 
             var watchlist = await client.Sync.GetWatchedShowsAsync();
 
@@ -59,6 +59,12 @@ namespace TraktStreamer.ConsoleApp
                     }
                 }
             }
+        }
+
+        private static string HandleTraktCallback(string url)
+        {
+            System.Diagnostics.Process.Start(url);
+            return Console.ReadLine();
         }
     }
 }

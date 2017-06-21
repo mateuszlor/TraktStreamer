@@ -1,9 +1,11 @@
-﻿using TraktApiSharp;
+﻿using System;
+using System.Threading.Tasks;
+using TraktApiSharp;
 
 namespace TraktStreamer.Service.API
 {
     public interface ITraktService
     {
-        TraktClient GetAuthorizedTraktClientAsync();
+        Task<TraktClient> GetAuthorizedTraktClientAsync(Func<string, string> userInputCallback);
     }
 }

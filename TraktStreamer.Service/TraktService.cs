@@ -15,7 +15,12 @@ namespace TraktStreamer.Service
 
         private IAuthorizationInfoRepository AuthorizationInfoRepository;
 
-        public TraktClient GetAuthorizedTraktClientAsync()
+        /// <summary>
+        /// TraktClient getter with authorization callback
+        /// </summary>
+        /// <param name="userInputCallback">User inpur authorization callback (takes URL to Trakt.TV, returns PIN)</param>
+        /// <returns></returns>
+        public async Task<TraktClient> GetAuthorizedTraktClientAsync(Func<string, string> userInputCallback)
         {
             var client = new TraktClient(CLIENT_ID, CLIENT_SECRET);
 
@@ -24,35 +29,34 @@ namespace TraktStreamer.Service
             if (auth is null)
             {
                 var authorizationUrl = client.OAuth.CreateAuthorizationUrl();
-                System.Diagnostics.Process.Start(authorizationUrl);
+                
+                //System.Diagnostics.Process.Start(authorizationUrl);
+                //var pin = Console.ReadLine();
 
-                var pin = Console.ReadLine();
+                var pin = userInputCallback(authorizationUrl);
 
-                var authorizationTask = client.OAuth.GetAuthorizationAsync(pin);
+                var authorization = await client.OAuth.GetAuthorizationAsync(pin);
 
-                authorizationTask.ContinueWith(SaveAuth, TaskContinuationOptions.OnlyOnRanToCompletion);
+                auth = new AuthorizationInfo
+                {
+                    AccessToken = authorization.AccessToken,
+                    RefreshToken = authorization.RefreshToken
+                };
 
+                AuthorizationInfoRepository.Save(auth);
             }
             else
             {
                 var authorization = TraktAuthorization.CreateWith(auth.AccessToken, auth.RefreshToken);
                 client.Authorization = authorization;
+                
+                auth.LastUsageDate = DateTime.Now;
+                AuthorizationInfoRepository.Save(auth);
             }
 
             Console.WriteLine("{0} | {1} | {2}", client.Authorization.TokenType, client.Authorization.AccessToken, client.Authorization.RefreshToken);
 
             return client;
-        }
-
-        private void SaveAuth(Task<TraktAuthorization> authorization)
-        {
-            var auth = new AuthorizationInfo
-            {
-                AccessToken = authorization.Result.AccessToken,
-                RefreshToken = authorization.Result.RefreshToken
-            };
-
-            AuthorizationInfoRepository.Save(auth);
         }
     }
 }
