@@ -15,11 +15,6 @@ namespace TraktStreamer.Service
 
         private IAuthorizationInfoRepository AuthorizationInfoRepository;
 
-        /// <summary>
-        /// TraktClient getter with authorization callback
-        /// </summary>
-        /// <param name="userInputCallback">User inpur authorization callback (takes URL to Trakt.TV, returns PIN)</param>
-        /// <returns></returns>
         public async Task<TraktClient> GetAuthorizedTraktClientAsync(Func<string, string> userInputCallback)
         {
             var client = new TraktClient(CLIENT_ID, CLIENT_SECRET);
