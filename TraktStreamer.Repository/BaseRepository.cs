@@ -20,6 +20,11 @@ namespace TraktStreamer.Repository
             return DataService.Set<T>().ToList();
         }
 
+        public T GetLast()
+        {
+            return DataService.Set<T>().OrderBy(x => x.ID).FirstOrDefault();
+        }
+
         public long Save(T item)
         {
             var saved = DataService.Set<T>().Add(item);

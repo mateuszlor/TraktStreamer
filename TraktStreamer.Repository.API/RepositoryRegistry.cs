@@ -7,7 +7,9 @@ namespace TraktStreamer.Repository
     {
         #region Singleton
 
-        public static RepositoryRegistry Instance => new RepositoryRegistry();
+        private static RepositoryRegistry _instance;
+
+        public static RepositoryRegistry Instance => _instance ?? (_instance = new RepositoryRegistry());
 
         #endregion // Singleton
 
