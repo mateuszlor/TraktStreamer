@@ -77,6 +77,10 @@
       <Project>{E73A099F-BC81-488F-AAAF-3A8CA3AB61C8}</Project>
       <Name>TraktStreamer.DAO.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TraktStreamer.Model\TraktStreamer.Model.csproj">
+      <Project>{D5D944D9-D48B-4EAF-B90D-5309A932D07B}</Project>
+      <Name>TraktStreamer.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TraktStreamer.Repository.API\TraktStreamer.Repository.API.csproj">
       <Project>{E7A6173B-3A84-4D1A-952B-F2F73FE0A23A}</Project>
       <Name>TraktStreamer.Repository.API</Name>

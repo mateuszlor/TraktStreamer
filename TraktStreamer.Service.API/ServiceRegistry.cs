@@ -14,5 +14,6 @@ namespace TraktStreamer.Service.API
         public static ServiceRegistry Instance => _instance ?? (_instance = new ServiceRegistry());
 
         public ITraktService TraktService = ContextRegistry.GetContext().GetObject<ITraktService>("traktService");
+        public IThePirateBayService ThePirateBayService = ContextRegistry.GetContext().GetObject<IThePirateBayService>("thePirateBayService");
     }
 }

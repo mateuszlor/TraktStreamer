@@ -7,6 +7,7 @@ using ThePirateBay;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
 using TraktStreamer.DAO.Model;
+using TraktStreamer.Model.Enum;
 using TraktStreamer.Repository;
 using TraktStreamer.Service.API;
 
@@ -32,8 +33,9 @@ namespace TraktStreamer.ConsoleApp
 
         private static async Task MainAsync()
         {
-            var service = ServiceRegistry.Instance.TraktService;
-            var client = await service.GetAuthorizedTraktClientAsync(HandleTraktCallback);
+            var traktService = ServiceRegistry.Instance.TraktService;
+            var tpbService = ServiceRegistry.Instance.ThePirateBayService;
+            var client = await traktService.GetAuthorizedTraktClientAsync(HandleTraktCallback);
 
             var watchlist = await client.Sync.GetWatchedShowsAsync();
 
@@ -45,13 +47,14 @@ namespace TraktStreamer.ConsoleApp
                 {
                     var name = $"{i.Show.Title} S{progress.NextEpisode.SeasonNumber:00}E{progress.NextEpisode.Number:00}";
                     Console.WriteLine(name);
-                    var torrents = Tpb.Search(new Query(name + " 1080p", 0, QueryOrder.BySize)).Where(t => t.Seeds > 0 && t.SizeBytes > 1 * 1024 * 1024 * 1024);
-                    if (!torrents.Any())
-                    {
-                        torrents = Tpb.Search(new Query(name + " 720p", 0, QueryOrder.BySize))
-                            .Where(t => t.Seeds > 0 && t.SizeBytes > 500 * 1024 * 1024);
-                    }
+                    //var torrents = Tpb.Search(new Query(name + " 1080p", 0, QueryOrder.BySize)).Where(t => t.Seeds > 0 && t.SizeBytes > 1 * 1024 * 1024 * 1024);
+                    //if (!torrents.Any())
+                    //{
+                    //    torrents = Tpb.Search(new Query(name + " 720p", 0, QueryOrder.BySize))
+                    //        .Where(t => t.Seeds > 0 && t.SizeBytes > 500 * 1024 * 1024);
+                    //}
                     //Console.WriteLine(string.Join(" | ", torrents.Select(t => $"{t.Name} - S.{t.Seeds} L.{t.Leechers} - {t.Size}")));
+                    var torrents = tpbService.Search(name, TorrentResolutionEnum._720p);
                     var torrent = torrents.FirstOrDefault();
                     if (torrent != null)
                     {
