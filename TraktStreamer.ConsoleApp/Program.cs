@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Logging;
 using ThePirateBay;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
@@ -15,6 +16,8 @@ namespace TraktStreamer.ConsoleApp
 {
     class Program
     {
+        private static ILog _logger = LogManager.GetLogger(typeof(Program));
+
         static void Main(string[] args)
         {
             var main = MainAsync();
@@ -46,6 +49,7 @@ namespace TraktStreamer.ConsoleApp
                 if (progress.Aired > progress.Completed)
                 {
                     var name = $"{i.Show.Title} S{progress.NextEpisode.SeasonNumber:00}E{progress.NextEpisode.Number:00}";
+                    Console.WriteLine();
                     Console.WriteLine(name);
 
                     var torrents = tpbService.Search(name, TorrentResolutionEnum._720p);
@@ -53,10 +57,11 @@ namespace TraktStreamer.ConsoleApp
 
                     if (torrent != null)
                     {
-                        Console.WriteLine($"{torrent.Name} - S.{torrent.Seeds} L.{torrent.Leechers} - {torrent.Size} - {torrent.Magnet}");
+                        _logger.Warn($"{torrent.Name} - S.{torrent.Seeds} L.{torrent.Leechers} - {torrent.Size} - {torrent.Magnet}");
                     }
                 }
             }
+            Console.WriteLine("\nTHAT'S ALL");
         }
 
         private static string HandleTraktCallback(string url)
