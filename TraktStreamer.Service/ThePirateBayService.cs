@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ThePirateBay;
 using TraktStreamer.Model.Enum;
@@ -16,7 +17,7 @@ namespace TraktStreamer.Service
                 return torrentsAll.ToList();
             }
 
-            var torrents = Tpb.Search(new Query(name + " 1080p", 0, QueryOrder.BySize)).ToList();
+            var torrents = SearchSpecificResolution(name, TorrentResolutionEnum._1080p);
 
             if (applyDefaultLimits)
             {
@@ -25,7 +26,7 @@ namespace TraktStreamer.Service
 
             if (minimumResolution <= TorrentResolutionEnum._720p && (bestResolutionOnly || !torrents.Any()))
             {
-                var torrents720 = Tpb.Search(new Query(name + " 720p", 0, QueryOrder.BySize));
+                var torrents720 = SearchSpecificResolution(name, TorrentResolutionEnum._720p);
 
                 torrents.AddRange(applyDefaultLimits
                     ? torrents720.Where(t => t.Seeds > 0 && t.SizeBytes > 500 * 1024 * 1024)
@@ -33,6 +34,12 @@ namespace TraktStreamer.Service
             }
 
             return torrents.ToList();
+        }
+
+        private List<Torrent> SearchSpecificResolution(string name, TorrentResolutionEnum resolution)
+        {
+            var toSearch = $"{name} {resolution.ToPrettyString()}";
+            return Tpb.Search(new Query(toSearch, 0, QueryOrder.BySize)).ToList();
         }
     }
 }
