@@ -17,20 +17,31 @@ namespace TraktStreamer.Service
                 return torrentsAll.ToList();
             }
 
-            var torrents = SearchSpecificResolution(name, TorrentResolutionEnum._1080p);
+            var torrents = SearchSpecificResolution(name, TorrentResolutionEnum._4K);
 
             if (applyDefaultLimits)
             {
                 torrents = torrents.Where(t => t.Seeds > 0 && t.SizeBytes > 1 * 1024 * 1024 * 1024).ToList();
             }
-
-            if (minimumResolution <= TorrentResolutionEnum._720p && (bestResolutionOnly || !torrents.Any()))
+            if (minimumResolution <= TorrentResolutionEnum._1080p && (bestResolutionOnly || !torrents.Any()))
             {
-                var torrents720 = SearchSpecificResolution(name, TorrentResolutionEnum._720p);
+                var torrents1080 = SearchSpecificResolution(name, TorrentResolutionEnum._1080p);
 
-                torrents.AddRange(applyDefaultLimits
-                    ? torrents720.Where(t => t.Seeds > 0 && t.SizeBytes > 500 * 1024 * 1024)
-                    : torrents720);
+                if (applyDefaultLimits)
+                {
+                    torrents1080 = torrents1080.Where(t => t.Seeds > 0 && t.SizeBytes > 1 * 1024 * 1024 * 1024).ToList();
+                }
+
+                torrents.AddRange(torrents1080);
+
+                if (minimumResolution <= TorrentResolutionEnum._720p && (bestResolutionOnly || !torrents.Any()))
+                {
+                    var torrents720 = SearchSpecificResolution(name, TorrentResolutionEnum._720p);
+
+                    torrents.AddRange(applyDefaultLimits
+                        ? torrents720.Where(t => t.Seeds > 0 && t.SizeBytes > 500 * 1024 * 1024)
+                        : torrents720);
+                }
             }
 
             return torrents.ToList();
