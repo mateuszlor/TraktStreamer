@@ -43,7 +43,7 @@ namespace TraktStreamer.ConsoleApp
                 {
                     var name = $"{i.Show.Title} S{progress.NextEpisode.SeasonNumber:00}E{progress.NextEpisode.Number:00}";
                     Console.WriteLine();
-                    Console.WriteLine(name);
+                    _logger.Info(name);
 
                     var torrents = tpbService.Search(name, TorrentResolutionEnum._720p);
                     var torrent = torrents.FirstOrDefault();
@@ -54,7 +54,7 @@ namespace TraktStreamer.ConsoleApp
                     }
                 }
             }
-            Console.WriteLine("\nTHAT'S ALL");
+            _logger.Info("\nTHAT'S ALL");
         }
 
         private static string HandleTraktCallback(string url)

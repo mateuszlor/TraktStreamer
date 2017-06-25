@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NLog;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
 using TraktStreamer.DAO.Model;
@@ -15,6 +16,8 @@ namespace TraktStreamer.Service
 
         private IAuthorizationInfoRepository AuthorizationInfoRepository;
 
+        private Logger _logger = LogManager.GetCurrentClassLogger();
+
         public async Task<TraktClient> GetAuthorizedTraktClientAsync(Func<string, string> userInputCallback)
         {
             var client = new TraktClient(CLIENT_ID, CLIENT_SECRET);
@@ -25,9 +28,6 @@ namespace TraktStreamer.Service
             {
                 var authorizationUrl = client.OAuth.CreateAuthorizationUrl();
                 
-                //System.Diagnostics.Process.Start(authorizationUrl);
-                //var pin = Console.ReadLine();
-
                 var pin = userInputCallback(authorizationUrl);
 
                 var authorization = await client.OAuth.GetAuthorizationAsync(pin);
@@ -49,7 +49,8 @@ namespace TraktStreamer.Service
                 AuthorizationInfoRepository.Save(auth);
             }
 
-            Console.WriteLine("{0} | {1} | {2}", client.Authorization.TokenType, client.Authorization.AccessToken, client.Authorization.RefreshToken);
+            _logger.Info("Authorized successfully");
+            _logger.Debug("AccessToken: {0}, RefreshToken: {1}", client.Authorization.AccessToken, client.Authorization.RefreshToken);
 
             return client;
         }
