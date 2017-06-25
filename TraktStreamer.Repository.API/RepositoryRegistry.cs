@@ -1,7 +1,6 @@
 ﻿using Spring.Context.Support;
-using TraktStreamer.Repository.API;
 
-namespace TraktStreamer.Repository
+namespace TraktStreamer.Repository.API
 {
     public class RepositoryRegistry
     {
@@ -13,6 +12,6 @@ namespace TraktStreamer.Repository
 
         #endregion // Singleton
 
-        public IAuthorizationInfoRepository AuthorizationInfoRepository => ContextRegistry.GetContext().GetObject<IAuthorizationInfoRepository>("authorizationInfoRepository");
+        public IAuthorizationInfoRepository AuthorizationInfoRepository => ContextRegistry.GetContext().GetObject<IAuthorizationInfoRepository>();
     }
 }

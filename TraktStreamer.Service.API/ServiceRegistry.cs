@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Spring.Context.Support;
+﻿using Spring.Context.Support;
 
 namespace TraktStreamer.Service.API
 {
@@ -13,7 +8,7 @@ namespace TraktStreamer.Service.API
 
         public static ServiceRegistry Instance => _instance ?? (_instance = new ServiceRegistry());
 
-        public ITraktService TraktService = ContextRegistry.GetContext().GetObject<ITraktService>("traktService");
-        public IThePirateBayService ThePirateBayService = ContextRegistry.GetContext().GetObject<IThePirateBayService>("thePirateBayService");
+        public ITraktService TraktService = ContextRegistry.GetContext().GetObject<ITraktService>();
+        public IThePirateBayService ThePirateBayService = ContextRegistry.GetContext().GetObject<IThePirateBayService>();
     }
 }
