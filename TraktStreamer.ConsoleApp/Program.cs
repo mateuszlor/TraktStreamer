@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Common.Logging;
-using ThePirateBay;
-using TraktApiSharp;
-using TraktApiSharp.Authentication;
-using TraktStreamer.DAO.Model;
+using NLog;
 using TraktStreamer.Model.Enum;
-using TraktStreamer.Repository;
 using TraktStreamer.Service.API;
 
 namespace TraktStreamer.ConsoleApp
 {
     class Program
     {
-        private static ILog _logger = LogManager.GetLogger(typeof(Program));
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         static void Main(string[] args)
         {
