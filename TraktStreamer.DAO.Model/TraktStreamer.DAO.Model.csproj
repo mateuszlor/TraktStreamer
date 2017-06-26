@@ -7,8 +7,8 @@
     <ProjectGuid>{E73A099F-BC81-488F-AAAF-3A8CA3AB61C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TractStreamer.DAO.Model</RootNamespace>
-    <AssemblyName>TractStreamer.DAO.Model</AssemblyName>
+    <RootNamespace>TraktStreamer.DAO.Model</RootNamespace>
+    <AssemblyName>TraktStreamer.DAO.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
