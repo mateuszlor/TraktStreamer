@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="BaseApplicationModel.cs" />
     <Compile Include="Enum\TorrentResolutionEnum.cs" />
+    <Compile Include="EpizodeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeriesModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
