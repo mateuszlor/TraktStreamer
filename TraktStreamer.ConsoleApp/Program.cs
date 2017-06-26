@@ -31,27 +31,21 @@ namespace TraktStreamer.ConsoleApp
         {
             var traktService = ServiceRegistry.Instance.TraktService;
             var tpbService = ServiceRegistry.Instance.ThePirateBayService;
-            var client = await traktService.GetAuthorizedTraktClientAsync(HandleTraktCallback);
 
-            var watchlist = await client.Sync.GetWatchedShowsAsync();
+            var client = await traktService.GetAuthorizedTraktClientAsync(HandleTraktCallback);
+            var watchlist = await traktService.GetAllEpizodesToWatchAsync(client);
 
             foreach (var i in watchlist)
             {
-                var progress = await client.Shows.GetShowWatchedProgressAsync(i.Show.Ids.Slug);
+                Console.WriteLine();
+                _logger.Info(i);
 
-                if (progress.Aired > progress.Completed)
+                var torrents = tpbService.Search(i.ToString(), TorrentResolutionEnum._720p);
+                var torrent = torrents.FirstOrDefault();
+
+                if (torrent != null)
                 {
-                    var name = $"{i.Show.Title} S{progress.NextEpisode.SeasonNumber:00}E{progress.NextEpisode.Number:00}";
-                    Console.WriteLine();
-                    _logger.Info(name);
-
-                    var torrents = tpbService.Search(name, TorrentResolutionEnum._720p);
-                    var torrent = torrents.FirstOrDefault();
-
-                    if (torrent != null)
-                    {
-                        _logger.Warn($"{torrent.Name} - S.{torrent.Seeds} L.{torrent.Leechers} - {torrent.Size} - {torrent.Magnet}");
-                    }
+                    _logger.Warn($"{torrent.Name} - S.{torrent.Seeds} L.{torrent.Leechers} - {torrent.Size} - {torrent.Magnet}");
                 }
             }
             _logger.Info("\nTHAT'S ALL");
