@@ -47,6 +47,40 @@ namespace TraktStreamer.Service
             return torrents.ToList();
         }
 
+        public Torrent SearchBest(string name)
+        {
+            return SearchBest(name, 0.9);
+        }
+
+        public Torrent SearchBest(string name, double sizeTolerance)
+        {
+            if (sizeTolerance < 0 || sizeTolerance > 1)
+            {
+                throw new ArgumentException("Size tolerance must be in <0,1>", nameof(sizeTolerance));
+            }
+
+            var torrents = Tpb.Search(new Query(name))
+                .Where(t => t.Seeds > 0);
+
+            var biggesSize = torrents
+                .OrderByDescending(t => t.SizeBytes)
+                .FirstOrDefault()
+                ?.SizeBytes;
+
+            if (biggesSize is null)
+            {
+                return null;
+            }
+
+            var sizeLimit = Convert.ToDecimal(sizeTolerance) * biggesSize.Value;
+
+            return torrents
+                .Where(t => t.SizeBytes > sizeLimit)
+                .OrderByDescending(x => x.Seeds)
+                .ThenByDescending(x => x.SizeBytes)
+                .FirstOrDefault();
+        }
+
         private List<Torrent> SearchSpecificResolution(string name, TorrentResolutionEnum resolution)
         {
             var toSearch = $"{name} {resolution.ToPrettyString()}";
