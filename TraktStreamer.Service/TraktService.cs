@@ -67,20 +67,17 @@ namespace TraktStreamer.Service
 
             foreach (var show in watchlist)
             {
-                var progress = await client.Shows.GetShowWatchedProgressAsync(show.Show.Ids.Slug);
-
-                if (progress.Aired > progress.Completed)
+                var model = new SeriesModel
                 {
-                    toWatch.Add(new EpizodeModel
-                    {
-                        Series = new SeriesModel
-                        {
-                            TraktSlug = show.Show.Ids.Slug,
-                            Name = show.Show.Title
-                        },
-                        Season = progress.NextEpisode.SeasonNumber.GetValueOrDefault(),
-                        Epizode = progress.NextEpisode.Number.GetValueOrDefault()
-                    });
+                    TraktSlug = show.Show.Ids.Slug,
+                    Name = show.Show.Title
+                };
+
+                var epizode = await GetEpizodeToWatch(client, model);
+
+                if (epizode != null)
+                {
+                    toWatch.Add(epizode);
                 }
             }
 
@@ -90,6 +87,20 @@ namespace TraktStreamer.Service
             _logger.Debug("Got {0} epizodes to watch", toWatch.Count);
 
             return toWatch;
+        }
+
+        public async Task<EpizodeModel> GetEpizodeToWatch(TraktClient client, SeriesModel show)
+        {
+            var progress = await client.Shows.GetShowWatchedProgressAsync(show.TraktSlug);
+
+            return progress.Aired > progress.Completed
+                ? new EpizodeModel
+                {
+                    Series = show,
+                    Season = progress.NextEpisode.SeasonNumber.GetValueOrDefault(),
+                    Epizode = progress.NextEpisode.Number.GetValueOrDefault()
+                }
+                : null;
         }
     }
 }
