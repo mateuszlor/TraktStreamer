@@ -9,6 +9,11 @@ namespace TraktStreamer.Service
 {
     public class ThePirateBayService : IThePirateBayService
     {
+        public List<Torrent> Search(Torrent torrent, TorrentResolutionEnum minimumResolution, bool bestResolutionOnly = true, bool applyDefaultLimits = true)
+        {
+            return Search(torrent.ToString(), minimumResolution, bestResolutionOnly, applyDefaultLimits);
+        }
+
         public List<Torrent> Search(string name, TorrentResolutionEnum minimumResolution, bool bestResolutionOnly = true, bool applyDefaultLimits = true)
         {
             if (minimumResolution == TorrentResolutionEnum.All)
@@ -47,9 +52,19 @@ namespace TraktStreamer.Service
             return torrents.ToList();
         }
 
+        public Torrent SearchBest(Torrent torrent)
+        {
+            return SearchBest(torrent.ToString());
+        }
+
         public Torrent SearchBest(string name)
         {
             return SearchBest(name, 0.9);
+        }
+
+        public Torrent SearchBest(Torrent torrent, double sizeTolerance)
+        {
+            return SearchBest(torrent.ToString(), sizeTolerance);
         }
 
         public Torrent SearchBest(string name, double sizeTolerance)
