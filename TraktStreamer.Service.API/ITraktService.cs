@@ -16,5 +16,7 @@ namespace TraktStreamer.Service.API
         Task<TraktClient> GetAuthorizedTraktClientAsync(Func<string, string> userInputCallback);
 
         Task<ICollection<EpizodeModel>> GetAllEpizodesToWatchAsync(TraktClient client);
+
+        Task<TimeSpan> GetSpentTimeAsync(TraktClient client, TimeSpan? timeSpan = null);
     }
 }

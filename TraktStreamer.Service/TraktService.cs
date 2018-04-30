@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using NLog;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
+using TraktApiSharp.Enums;
+using TraktApiSharp.Requests.Params;
 using TraktStreamer.DAO.Model;
 using TraktStreamer.Model;
 using TraktStreamer.Repository.API;
