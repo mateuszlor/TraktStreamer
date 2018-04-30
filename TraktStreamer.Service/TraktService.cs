@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using NLog;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
+using TraktApiSharp.Enums;
+using TraktApiSharp.Requests.Params;
 using TraktStreamer.DAO.Model;
 using TraktStreamer.Model;
 using TraktStreamer.Repository.API;
@@ -101,6 +103,34 @@ namespace TraktStreamer.Service
                     Epizode = progress.NextEpisode.Number.GetValueOrDefault()
                 }
                 : null;
+        }
+
+        public async Task<TimeSpan> GetSpentTimeAsync(TraktClient client, TimeSpan? timeSpan = null)
+        {
+            var page = 1;
+
+            var dateFrom = timeSpan.HasValue
+                ? DateTime.Now.Date.Subtract(timeSpan.Value)
+                : null as DateTime?;
+
+            var watched = await client.Sync.GetWatchedHistoryAsync(limitPerPage: int.MaxValue, startAt:dateFrom, extendedInfo: new TraktExtendedInfo
+            {
+                Full = true
+            });
+
+            var minutes = watched.Sum(x => x.Episode?.Runtime ?? x.Movie?.Runtime ?? 0);
+
+            var watchedTime = TimeSpan.FromMinutes(minutes);
+
+            _logger.Debug("Watched {0} epizodes, {1} movies in {2} days {3} hours {4} minutes ({})",
+                watched.Where(x => x.Type == TraktSyncItemType.Episode).Select(x => x.Episode.Ids.Trakt).Distinct().Count(),
+                watched.Where(x => x.Type == TraktSyncItemType.Movie).Select(x => x.Movie.Ids.Trakt).Distinct().Count(),
+                watchedTime.Days,
+                watchedTime.Hours,
+                watchedTime.Minutes,
+                dateFrom.HasValue ? $"from {dateFrom.Value.Date}" : "EVER");
+
+            return watchedTime;
         }
     }
 }
